@@ -1,0 +1,19 @@
+server:
+  port: 10000
+spring:
+  application:
+    name: Gateway
+
+  cloud:
+    nacos:
+      config:
+        enabled: false
+      discovery:
+        server-addr: 127.0.0.1:8848
+    gateway:
+      routes: # 网关路由配置
+        - id: test # 路由id, 自定义，唯一即可
+          # uri: 127.0.0.1:/order # - 路由目的地，支持lb和http两种
+          uri: lb://test-demo # 路由的目的地，lb是负载均衡，后面跟服务名称
+          predicates: # 路由断言，也就是判断是否符合路由规则的条件
+            - Path=/test-demo/** # path 按照路径进行匹配，只要以/order-service/开头就符合规则
